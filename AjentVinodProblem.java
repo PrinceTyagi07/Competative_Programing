@@ -17,11 +17,12 @@ public class AjentVinodProblem{
         int left = (n/2), right =(n/2)+1;
 
         // Decipher the message by alternating adding characters from left and right ends
-        while (left > 0 || right<n) {
+        for (int i=0;i<n;i++){
             // Append characters alternatively from left and right ends
+            if(left>=0){
             originalMessage.append(encryptedMessage.charAt(left));
-           
-            if (left != right) {
+           }
+            if (right<n) {
                 originalMessage.append(encryptedMessage.charAt(right));
             }
             left--;
