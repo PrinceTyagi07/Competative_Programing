@@ -1,0 +1,105 @@
+<!-- this code is for camera access -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Front Camera Access</title>
+    <style>
+        #video {
+            width: 30%;
+            height: 30%;
+        }
+
+        #startButton #stopButton {
+            color: black
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Front Camera Access</h1>
+    <video id="video" autoplay></video>
+    <div>
+
+        <button id="startButton">Start Front Camera</button>
+        <button id="stopButton">Stop Front Camera</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+
+        startButton.addEventListener('click', () => {
+            startFrontCamera();
+        });
+
+        stopButton.addEventListener('click', () => {
+            stopFrontCamera();
+        });
+
+        function startFrontCamera() {
+            navigator.mediaDevices.getUserMedia({
+                video: { facingMode: 'user' }
+            })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(error => {
+                    console.error('Error accessing front camera:', error);
+                });
+        }
+
+        function stopFrontCamera() {
+            if (video.srcObject) {
+                video.srcObject.getTracks().forEach(track => {
+                    track.stop();
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
+<!-- import React, { useState, useRef } from 'react';
+
+function FrontCameraAccess() {
+    const [stream, setStream] = useState(null);
+    const videoRef = useRef(null);
+
+    const startFrontCamera = () => {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+            .then(stream => {
+                setStream(stream);
+                if (videoRef.current) {
+                    videoRef.current.srcObject = stream;
+                }
+            })
+            .catch(error => {
+                console.error('Error accessing front camera:', error);
+            });
+    };
+
+    const stopFrontCamera = () => {
+        if (stream) {
+            stream.getTracks().forEach(track => {
+                track.stop();
+            });
+            setStream(null);
+        }
+    };
+
+    return (
+        <div>
+            <h1>Front Camera Access</h1>
+            <video ref={videoRef} autoPlay={true} style={{ width: '100%', height: 'auto' }}></video>
+            <button onClick={startFrontCamera}>Start Front Camera</button>
+            <button onClick={stopFrontCamera}>Stop Front Camera</button>
+        </div>
+    );
+}
+
+export default FrontCameraAccess;
+ -->
